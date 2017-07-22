@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Weather</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <img [src]="image" />
+    </ion-item>
+    <ion-item>
+      <ion-label>Temperature: </ion-label>
+      <ion-input [value]="temp"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Feels Like: </ion-label>
+      <ion-input [value]="feelslike"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>
