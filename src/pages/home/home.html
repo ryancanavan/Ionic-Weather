@@ -8,17 +8,26 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <img [src]="image" />
-    </ion-item>
-    <ion-item>
-      <ion-label>Temperature: </ion-label>
-      <ion-input [value]="temp"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Feels Like: </ion-label>
-      <ion-input [value]="feelslike"></ion-input>
-    </ion-item>
-  </ion-list>
+  <ion-card>
+    <ion-card-header>
+      {{city}}
+    </ion-card-header>
+    <ion-card-content>
+      <div class=left>
+        <img class=icon [src]="icon_url"/>
+        {{weather}}
+      </div>
+      <div class=right>
+        <br /><div class=temp>{{temp}} &deg;F<br /></div>
+        Feels Like {{feelslike}} &deg;F
+      </div>
+      <div class=bottom>
+        <br />{{time}}
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <div class=footer>
+    <small>Powered by Weather Underground</small>
+	  <img src="http://www.underconsideration.com/brandnew/archives/weather_underground_logo_detail.png" height=15px/>
+  </div>
 </ion-content>
