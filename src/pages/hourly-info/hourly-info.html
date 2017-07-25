@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{dayString}}, {{month}} {{day}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list no-lines>
+    <ion-item *ngFor="let hour of hours">  
+      <ion-card>
+        <ion-card-content>
+          <div class=left>
+            <img class=pic [src]="'https://icons.wxug.com/i/c/i/' + hour.icon + '.gif'"/>
+          </div>
+          <div class=middle>
+            <span class=bold>{{hour.FCTTIME.civil}}</span><br />
+            {{hour.condition}}
+          </div>
+          <div class=right>
+            <div class=temp>{{hour.temp.english}}&deg;F</div>
+            Feels Like {{hour.feelslike.english}}&deg;F
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+</ion-content>

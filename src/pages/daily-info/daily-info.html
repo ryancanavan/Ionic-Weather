@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{city}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list no-lines>
+    <ion-item *ngFor="let day of days" tappable (click)="hourlyInfo(zip, city, day.date.monthname, day.date.day, day.date.weekday)">      
+      <ion-card>
+        <ion-card-content>
+          <div class=left>
+            <img class=pic [src]="'https://icons.wxug.com/i/c/i/' + day.icon + '.gif'"/>
+          </div>
+          <div class=middle>
+            <span class=bold>{{day.date.weekday}}, {{day.date.monthname}} {{day.date.day}}</span><br />
+            {{day.conditions}}
+          </div>
+          <div class=right>
+            <span class=bold>{{day.high.fahrenheit}}&deg;F</span><br />
+            {{day.low.fahrenheit}}&deg;F
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+</ion-content>

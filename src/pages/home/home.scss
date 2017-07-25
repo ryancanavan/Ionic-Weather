@@ -1,4 +1,7 @@
 page-home {
+    .label { 
+        margin: 0 0 0 0;
+    }
     ion-card-header {
         font-weight: bold;
     }
@@ -19,7 +22,7 @@ page-home {
     .bottom {
         clear: both;
     }
-    .icon {
+    .pic {
         margin: auto;
         height: 75px;
         width: 75px;

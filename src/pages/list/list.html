@@ -3,21 +3,26 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>List</ion-title>
+    <ion-title>Settings</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-left></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-right>
-        {{item.note}}
-      </div>
-    </button>
+    <ion-item>
+      <ion-label>Scale</ion-label>
+      <ion-select [(ngModel)]="scale" (ionChange)="scaleChange()">
+        <ion-option value="far">Fahrenheit</ion-option>
+        <ion-option value="cel">Celsius</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Theme</ion-label>
+      <ion-select [(ngModel)]="theme" (ionChange)="themeChange()">
+        <ion-option value="light">Light</ion-option>
+        <ion-option value="dark">Dark</ion-option>
+      </ion-select>
+    </ion-item>
+
   </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
 </ion-content>

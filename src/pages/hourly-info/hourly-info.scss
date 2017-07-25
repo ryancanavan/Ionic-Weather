@@ -1,0 +1,34 @@
+page-hourly-info {
+    .label { 
+        margin: 0 0 0 0;
+    }
+    ion-card-content {
+        position: relative;
+        text-align: center;
+    }
+    .left {
+        float: left;
+        width: 25%;
+    }
+    .middle {
+        display: inline-block;
+        width: 40%;
+        white-space: normal;
+    }
+    .right {
+        float: right;
+        width: 35%;
+    }
+    .pic {
+        margin: auto;
+        height: 50px;
+        width: 50px;
+    }
+    .temp {
+        font-weight: bold;
+        font-size: 200%;
+    }
+    .bold {
+        font-weight: bold;
+    }
+}

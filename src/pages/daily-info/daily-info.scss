@@ -1,0 +1,35 @@
+page-daily-info {
+    .label { 
+        margin: 0 0 0 0;
+    }
+    ion-card-content {
+        position: relative;
+        text-align: center;
+    }
+    .left {
+        float: left;
+        width: 20%;
+    }
+    .middle {
+        display: inline-block;
+        width: 65%;
+        white-space: normal;
+    }
+    .right {
+        font-size: 120%;
+        float: right;
+        width: 15%;
+    }
+    .pic {
+        margin: auto;
+        height: 50px;
+        width: 50px;
+    }
+    .temp {
+        font-weight: bold;
+        font-size: 200%;
+    }
+    .bold {
+        font-weight: bold;
+    }
+}
