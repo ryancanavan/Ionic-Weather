@@ -5,22 +5,22 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { SettingsPage } from '../pages/settings/settings';
 import { AddLocationPage } from '../pages/add-location/add-location';
 import { HourlyInfoPage } from '../pages/hourly-info/hourly-info';
 import { DailyInfoPage } from '../pages/daily-info/daily-info';
 
 import { Geolocation } from '@ionic-native/geolocation';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { SettingsProvider } from '../providers/settings/settings';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
+    SettingsPage,
     AddLocationPage,
     HourlyInfoPage,
     DailyInfoPage
@@ -29,12 +29,16 @@ import { SettingsProvider } from '../providers/settings/settings';
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot({
+      name: '__storage',
+        driverOrder: ['indexeddb', 'sqlite', 'websql']
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
+    SettingsPage,
     AddLocationPage,
     HourlyInfoPage,
     DailyInfoPage
@@ -43,8 +47,7 @@ import { SettingsProvider } from '../providers/settings/settings';
     StatusBar,
     SplashScreen,
     Geolocation,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    SettingsProvider
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}

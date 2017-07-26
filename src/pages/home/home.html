@@ -1,22 +1,24 @@
 <ion-header>
+
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Weather</ion-title>
+    <ion-title>Places</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="goToSettingsPage()"><ion-icon name="settings"></ion-icon></button>
+    </ion-buttons>
   </ion-navbar>
+
 </ion-header>
 
 <ion-content padding>
   <ion-list no-lines>
-    <ion-item tabbable (click)="dailyInfo(zip, city)">
+    <ion-item tabbable (click)="goToDailyInfoPage(zip, city)">
       <ion-card>
         <ion-card-header>
           {{city}}
         </ion-card-header>
         <ion-card-content>
           <div class=left>
-            <img class=pic [src]="icon_url"/>
+            <img class=pic src="assets/weather/{{icon}}.png"/>
             {{weather}}
           </div>
           <div class=right>
@@ -31,7 +33,7 @@
     </ion-item>
   </ion-list>
   <ion-fab bottom right>
-    <button ion-fab color="vibrant" (click)="addLocation()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab color="vibrant" (click)="goToAddLocationPage()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
   <div class=footer>
     <img src="https://icons.wxug.com/logos/PNG/wundergroundLogo_4c_horz.png" height=20px/>

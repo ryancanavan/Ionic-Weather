@@ -13,11 +13,12 @@
       <ion-card>
         <ion-card-content>
           <div class=left>
-            <img class=pic [src]="'https://icons.wxug.com/i/c/i/' + day.icon + '.gif'"/>
+            <img class=pic src="assets/weather/{{day.icon}}.png"/>
           </div>
           <div class=middle>
             <span class=bold>{{day.date.weekday}}, {{day.date.monthname}} {{day.date.day}}</span><br />
-            {{day.conditions}}
+            {{day.conditions}}<br />
+            <img class=umbrella src="assets/weather/pop.png"/> {{day.pop}}%
           </div>
           <div class=right>
             <span class=bold>{{day.high.fahrenheit}}&deg;F</span><br />

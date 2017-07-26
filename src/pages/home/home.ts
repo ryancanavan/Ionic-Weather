@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Http } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
+import { SettingsPage } from '../settings/settings';
 import { AddLocationPage } from '../add-location/add-location';
 import { DailyInfoPage } from '../daily-info/daily-info';
+import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -12,7 +14,7 @@ import 'rxjs/add/operator/map';
 })
 export class HomePage {
 
-  icon_url: any;
+  icon: any;
   weather: any;
   temp: any;
   feelslike: any;
@@ -20,11 +22,11 @@ export class HomePage {
   time: any;
   zip: any;
 
-  constructor(public navCtrl: NavController, public http: Http, public geolocation: Geolocation) {
+  constructor(public navCtrl: NavController, public http: Http, public geolocation: Geolocation, public storage: Storage) {
   }
 
   ionViewDidLoad(){
-    this.loadWeather();
+    this.loadWeather();  
   }
 
   loadWeather(){
@@ -33,26 +35,32 @@ export class HomePage {
       console.log(url);
       this.http.get(url).map(res => res.json())
       .subscribe(data => {
-        this.icon_url = 'https://icons.wxug.com/i/c/i/' + data.current_observation.icon + '.gif';
+        this.icon = data.current_observation.icon;
         this.weather = data.current_observation.weather;
         this.temp = parseInt(data.current_observation.temp_f);
         this.feelslike = parseInt(data.current_observation.feelslike_f);
-        this.city = data.current_observation.display_location.full;
+        this.city = data.current_observation.observation_location.full;
+        let pos = this.city.indexOf(", ") + 2;
+        this.city = this.city.substring(pos, this.city.length);
         this.time = data.current_observation.observation_time;
         this.zip = data.current_observation.display_location.zip;
       },
       err => {
         console.log("Error getting current location weather data!");
       }
-    ); 
+      ); 
     })
   }
 
-  addLocation(){
+  goToAddLocationPage(){
     this.navCtrl.push(AddLocationPage);
   }
 
-  dailyInfo(zip, city){
+  goToSettingsPage(){
+    this.navCtrl.push(SettingsPage);
+  }
+
+  goToDailyInfoPage(zip, city){
     this.navCtrl.push(DailyInfoPage, {'zip': zip, 'city': city});
   }
 
