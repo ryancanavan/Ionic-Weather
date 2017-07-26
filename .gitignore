@@ -8,6 +8,7 @@
 *.tmp.*
 *.jks
 *.bat
+*.apk
 log.txt
 *.sublime-project
 *.sublime-workspace
