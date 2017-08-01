@@ -9,8 +9,8 @@
 
 <ion-content padding>
   <ion-list no-lines>
-    <ion-item *ngFor="let day of days" tappable (click)="hourlyInfo(zip, city, day.date.monthname, day.date.day, day.date.weekday)">      
-      <ion-card>
+    <ion-item *ngFor="let day of days">      
+      <ion-card (tap)="hourlyInfo(zip, city, day.date.monthname, day.date.day, day.date.weekday)">
         <ion-card-content>
           <div class=left>
             <img class=pic src="assets/weather/{{day.icon}}.png"/>

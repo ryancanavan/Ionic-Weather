@@ -26,12 +26,11 @@ export class DailyInfoPage {
       this.http.get(url).map(res => res.json())
       .subscribe(data => {
         this.days = data.forecast.simpleforecast.forecastday;
-        //console.log(this.days);
       },
       err => {
         console.log("Error getting current location weather data!");
       }
-    ); 
+    );
   }
 
   hourlyInfo(zip, city, month, day, dayString){

@@ -5,7 +5,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { SettingsPage } from '../settings/settings';
 import { AddLocationPage } from '../add-location/add-location';
 import { DailyInfoPage } from '../daily-info/daily-info';
-import { Storage } from '@ionic/storage';
+import { DbProvider } from '../../providers/db/db';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -13,6 +13,12 @@ import 'rxjs/add/operator/map';
   templateUrl: 'home.html'
 })
 export class HomePage {
+
+  theme: any;
+  scale: any;
+  places: any;
+
+  placeInfo = [];
 
   icon: any;
   weather: any;
@@ -22,14 +28,34 @@ export class HomePage {
   time: any;
   zip: any;
 
-  constructor(public navCtrl: NavController, public http: Http, public geolocation: Geolocation, public storage: Storage) {
+  constructor(public navCtrl: NavController, public http: Http, public geolocation: Geolocation, public db: DbProvider) {
   }
 
   ionViewDidLoad(){
-    this.loadWeather();  
+    this.loadSettings();
   }
 
-  loadWeather(){
+  doRefresh(refresher){
+    this.placeInfo = [];
+    this.loadSettings();
+    refresher.complete();
+  }
+
+  loadSettings(){
+    this.db.getTheme().then(data => {
+      this.theme = data;
+      this.db.getScale().then(data => {
+        this.scale = data;
+        this.db.getPlaces().then(data => {
+          this.places = data;
+          this.loadLocalWeather();
+          this.loadPlacesWeather();
+        })
+      });
+    });
+  }
+
+  loadLocalWeather(){
     this.geolocation.getCurrentPosition().then((position) => {
       let url: string = 'http://api.wunderground.com/api/5b4386802cb6e185/conditions/q/' + position.coords.latitude + ',' + position.coords.longitude + '.json';
       console.log(url);
@@ -42,7 +68,6 @@ export class HomePage {
         this.city = data.current_observation.observation_location.full;
         let pos = this.city.indexOf(", ") + 2;
         this.city = this.city.substring(pos, this.city.length);
-        this.time = data.current_observation.observation_time;
         this.zip = data.current_observation.display_location.zip;
       },
       err => {
@@ -50,6 +75,40 @@ export class HomePage {
       }
       ); 
     })
+  }
+
+  loadPlacesWeather(){
+    let placeString = "";
+    console.log(this.places);
+    if(this.places != null)
+      placeString = JSON.parse(this.places).coords;
+    for(let place of placeString){
+      let url: string = 'http://api.wunderground.com/api/5b4386802cb6e185/conditions/q/' + place + '.json';
+      console.log(url);
+      this.http.get(url).map(res => res.json())
+      .subscribe(data => {
+        let info = '{"icon":"' + data.current_observation.icon + '", ';
+        info += '"weather":"' + data.current_observation.weather + '", ';
+        info += '"temp":"' + parseInt(data.current_observation.temp_f) + '", ';
+        info += '"feelslike":"' + parseInt(data.current_observation.feelslike_f) + '", ';
+        let city = data.current_observation.observation_location.full;
+        let pos = city.indexOf(", ") + 2;
+        info += '"city":"' + city.substring(pos, city.length) + '", ';
+        info += '"zip":"' + data.current_observation.display_location.zip + '", ';
+        info += '"coords":"' + place + '"}';
+        this.placeInfo.push(JSON.parse(info));
+      },
+      err => {
+        console.log("Error getting current location weather data!");
+      }
+    );
+    }
+  }
+
+  clearCard(coords){
+    this.db.removePlace(coords);
+    this.placeInfo = [];
+    this.loadSettings();
   }
 
   goToAddLocationPage(){

@@ -10,10 +10,10 @@
 <ion-content padding>
   <ion-searchbar (ionInput)="getPlaces($event)"></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let item of items" tappable (click)="addPlace()">
+    <ion-item *ngFor="let item of items" tappable (click)="addPlace(item)">
       <div class=item>
         <span class=addcircle><ion-icon name="add-circle"></ion-icon></span>
-        {{ item }}
+        {{ item.name }}
       </div>
     </ion-item>
   </ion-list>

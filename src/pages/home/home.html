@@ -10,9 +10,12 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list no-lines>
-    <ion-item tabbable (click)="goToDailyInfoPage(zip, city)">
-      <ion-card>
+    <ion-item>
+      <ion-card (tap)="goToDailyInfoPage(zip, city)">
         <ion-card-header>
           {{city}}
         </ion-card-header>
@@ -25,8 +28,22 @@
             <br /><div class=temp>{{temp}}&deg;F<br /></div>
             Feels Like {{feelslike}}&deg;F
           </div>
-          <div class=bottom>
-            <br /><small>{{time}}</small>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+    <ion-item *ngFor="let place of placeInfo">      
+      <ion-card (tap)="goToDailyInfoPage(place.zip, place.city)" (swipe)="clearCard(place.coords)">
+        <ion-card-header>
+          {{place.city}}
+        </ion-card-header>
+        <ion-card-content>
+          <div class=left>
+            <img class=pic src="assets/weather/{{place.icon}}.png"/>
+            {{place.weather}}
+          </div>
+          <div class=right>
+            <br /><div class=temp>{{place.temp}}&deg;F<br /></div>
+            Feels Like {{place.feelslike}}&deg;F
           </div>
         </ion-card-content>
       </ion-card>

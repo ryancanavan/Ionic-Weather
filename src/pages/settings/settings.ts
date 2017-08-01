@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { DbProvider } from '../../providers/db/db';
 
 @Component({
   selector: 'page-settings',
@@ -11,7 +11,7 @@ export class SettingsPage {
   scale: any;
   theme: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public db: DbProvider) {
   }
 
   ionViewDidLoad(){
@@ -19,32 +19,32 @@ export class SettingsPage {
   }
 
   getSettings(){
-    this.storage.get('scale').then((val) => {
-      this.scale = val;
+    this.db.getTheme().then(data => {
+      if(data == null){
+        this.theme = 'light';
+        this.db.setTheme('light');
+      }
+      else{
+        this.theme = data;
+      }
+      this.db.getScale().then(data => {
+        if(data == null){
+          this.scale = 'far';
+          this.db.setScale('far');
+        }
+        else{
+          this.scale = data;
+        }
+      });
     });
-    if(this.scale == null){
-      console.log('empty scale');
-      this.storage.set('scale', 'far');
-      this.scale = 'far';
-    }      
-    this.storage.get('theme').then((val) => {
-      this.theme = val;
-    });
-    if(this.theme == null){
-      console.log('empty theme');
-      this.storage.set('theme', 'light');
-      this.theme = 'light';
-    }
-    console.log(this.scale);
-    console.log(this.theme);
   }
 
   scaleChange(scale) {
-    this.storage.set('scale', scale);
+    this.db.setScale(scale);
   }
 
   themeChange(theme) {
-    this.storage.set('theme', theme);
+    this.db.setTheme(theme);
   }
 
 }
