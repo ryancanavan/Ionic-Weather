@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Http } from '@angular/http';
+import { DbProvider } from '../../providers/db/db';
 import 'rxjs/add/operator/map';
 
 @Component({
@@ -9,19 +10,42 @@ import 'rxjs/add/operator/map';
 })
 export class HourlyInfoPage {
 
-  city: string = this.navParams.get('city');
-  month: string = this.navParams.get('month');
-  day: string = this.navParams.get('day');
-  dayString: string = this.navParams.get('dayString');
+  theme: any;
+  scale: any;
+
+  dayString: string = this.navParams.get('day');
+  month: string = this.dayString.substring(this.dayString.indexOf(' ')+1, this.dayString.lastIndexOf(' '));
+  day: string = this.dayString.substring(this.dayString.lastIndexOf(' ')+1, this.dayString.length);
   totalHours: any;
   hours: any;
   
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public http: Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public http: Http, public db:DbProvider) {
   }
 
   ionViewDidLoad() {
-    this.loadWeather();
+    this.loadSettings();
+  }
+
+  doRefresh(refresher){
+    this.loadSettings();
+    refresher.complete();
+  }
+
+  loadSettings(){
+    this.db.getTheme().then(data => {
+      if(data == null)
+        this.theme = 'light';
+      else
+        this.theme = data;
+      this.db.getScale().then(data => {
+        if(data == null)
+          this.scale = 'F';
+        else
+          this.scale = data;
+        this.loadWeather();
+      });
+    });
   }
 
   loadWeather() {

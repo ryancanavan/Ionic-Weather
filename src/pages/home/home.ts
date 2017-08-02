@@ -31,7 +31,8 @@ export class HomePage {
   constructor(public navCtrl: NavController, public http: Http, public geolocation: Geolocation, public db: DbProvider) {
   }
 
-  ionViewDidLoad(){
+  ionViewDidEnter() {
+    this.placeInfo = [];
     this.loadSettings();
   }
 
@@ -43,9 +44,15 @@ export class HomePage {
 
   loadSettings(){
     this.db.getTheme().then(data => {
-      this.theme = data;
+      if(data == null)
+        this.theme = 'light';
+      else
+        this.theme = data;
       this.db.getScale().then(data => {
-        this.scale = data;
+        if(data == null)
+          this.scale = 'F';
+        else
+          this.scale = data;
         this.db.getPlaces().then(data => {
           this.places = data;
           this.loadLocalWeather();
@@ -63,8 +70,14 @@ export class HomePage {
       .subscribe(data => {
         this.icon = data.current_observation.icon;
         this.weather = data.current_observation.weather;
-        this.temp = parseInt(data.current_observation.temp_f);
-        this.feelslike = parseInt(data.current_observation.feelslike_f);
+        if(this.scale == 'C'){
+          this.temp = parseInt(data.current_observation.temp_c);
+          this.feelslike = parseInt(data.current_observation.feelslike_c);
+        }
+        else {
+          this.temp = parseInt(data.current_observation.temp_f);
+          this.feelslike = parseInt(data.current_observation.feelslike_f);
+        }
         this.city = data.current_observation.observation_location.full;
         let pos = this.city.indexOf(", ") + 2;
         this.city = this.city.substring(pos, this.city.length);
@@ -89,8 +102,14 @@ export class HomePage {
       .subscribe(data => {
         let info = '{"icon":"' + data.current_observation.icon + '", ';
         info += '"weather":"' + data.current_observation.weather + '", ';
-        info += '"temp":"' + parseInt(data.current_observation.temp_f) + '", ';
-        info += '"feelslike":"' + parseInt(data.current_observation.feelslike_f) + '", ';
+        if(this.scale == 'C'){
+          info += '"temp":"' + parseInt(data.current_observation.temp_c) + '", ';
+          info += '"feelslike":"' + parseInt(data.current_observation.feelslike_c) + '", ';
+        }
+        else {
+          info += '"temp":"' + parseInt(data.current_observation.temp_f) + '", ';
+          info += '"feelslike":"' + parseInt(data.current_observation.feelslike_f) + '", ';
+        }
         let city = data.current_observation.observation_location.full;
         let pos = city.indexOf(", ") + 2;
         info += '"city":"' + city.substring(pos, city.length) + '", ';

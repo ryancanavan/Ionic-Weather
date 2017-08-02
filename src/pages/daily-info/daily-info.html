@@ -8,9 +8,12 @@
 
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list no-lines>
     <ion-item *ngFor="let day of days">      
-      <ion-card (tap)="hourlyInfo(zip, city, day.date.monthname, day.date.day, day.date.weekday)">
+      <ion-card (tap)="hourlyInfo(day.date.weekday, day.date.monthname, day.date.day)">
         <ion-card-content>
           <div class=left>
             <img class=pic src="assets/weather/{{day.icon}}.png"/>
@@ -21,8 +24,14 @@
             <img class=umbrella src="assets/weather/pop.png"/> {{day.pop}}%
           </div>
           <div class=right>
-            <span class=bold>{{day.high.fahrenheit}}&deg;F</span><br />
-            {{day.low.fahrenheit}}&deg;F
+            <div *ngIf="scale=='F'">
+              <span class=bold>{{day.high.fahrenheit}}&deg;{{scale}}</span><br />
+              {{day.low.fahrenheit}}&deg;{{scale}}
+            </div>
+            <div *ngIf="scale=='C'">
+              <span class=bold>{{day.high.celsius}}&deg;{{scale}}</span><br />
+              {{day.low.celsius}}&deg;{{scale}}
+            </div>
           </div>
         </ion-card-content>
       </ion-card>

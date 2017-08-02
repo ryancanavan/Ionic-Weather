@@ -29,8 +29,8 @@ export class SettingsPage {
       }
       this.db.getScale().then(data => {
         if(data == null){
-          this.scale = 'far';
-          this.db.setScale('far');
+          this.scale = 'F';
+          this.db.setScale('F');
         }
         else{
           this.scale = data;

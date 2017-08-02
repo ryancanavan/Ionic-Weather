@@ -1,13 +1,16 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{dayString}}, {{month}} {{day}}</ion-title>
+    <ion-title>{{dayString}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list no-lines>
     <ion-item *ngFor="let hour of hours">  
       <ion-card>
@@ -21,8 +24,14 @@
             <img class=umbrella src="assets/weather/pop.png"/> {{hour.pop}}%
           </div>
           <div class=right>
-            <div class=temp>{{hour.temp.english}}&deg;F</div>
-            Feels Like {{hour.feelslike.english}}&deg;F
+            <div *ngIf="scale=='F'">
+              <div class=temp>{{hour.temp.english}}&deg;{{scale}}</div>
+              Feels Like {{hour.feelslike.english}}&deg;{{scale}}
+            </div>
+            <div *ngIf="scale=='C'">
+              <div class=temp>{{hour.temp.metric}}&deg;{{scale}}</div>
+              Feels Like {{hour.feelslike.metric}}&deg;{{scale}}
+            </div>
           </div>
         </ion-card-content>
       </ion-card>
